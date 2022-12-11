@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport"
+		content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title>勇者征程所有任务</title>
+	<style>
+		/* 设置表格容器样式 */
+		.container {
+			display: flex;
+			/* 设置为横向排列 */
+			flex-wrap: wrap;
+			/* 允许换行 */
+			justify-content: center;
+			/* 居中对齐 */
+		}
+
+		/* 设置表格样式 */
+		table {
+			margin: 20px;
+			/* 设置表格与周围元素的间距 */
+			border-radius: 10px;
+			/* 设置表格圆角 */
+			box-shadow: 1px 1px 5px #ccc;
+			/* 设置阴影 */
+		}
+
+		/* 设置单元格样式 */
+		td {
+			height: 40px;
+			/* 设置单元格内边距 */
+			text-align: center;
+			/* 居中对齐 */
+		}
+	</style>
+	<style type="text/css">
+
+
+	</style>
+	<script type="text/javascript" src="https://cdnh5.xiaoseer.com/test/uniapp.js"></script>
+	<script type="text/javascript" src="https://cdnh5.xiaoseer.com/test/seer.js"></script>
+	<!--你需要引入uniapp , seer 2个js文件-->
+</head>
+
+<body>
+	<p>本页面js部分与css部分全部由chatgpt完成</p>
+
+
+	<!--这里是js，逻辑部分-->
+	<script type="text/javascript">
+		function loadJSON(url, callback) {
+			var xobj = new XMLHttpRequest();
+			xobj.overrideMimeType("application/json");
+			xobj.open('GET', url, true);
+			xobj.onreadystatechange = function () {
+				if (xobj.readyState == 4 && xobj.status == "200") {
+					callback(xobj.responseText);
+				}
+			};
+			xobj.send(null);
+		}
+
+		// 示例调用，跨域加载 JSON 文件
+		var url = "https://seerh5.61.com/resource/config/json/brave_task_25755494.json";
+		loadJSON(url, function (response) {
+			// 在此处处理 JSON 数据
+			var jsonData = JSON.parse(response);
+			jsonData = jsonData["data"];
+			console.log(jsonData);
+
+			// 构建 HTML 表格容器
+			var container = document.createElement("div");
+
+			// 遍历 JSON 数组
+			for (var i = 0; i < jsonData.length;) {
+				// 构建新表格
+				var table = document.createElement("table");
+
+				// 循环遍历一个表格内的行（共 4 行）
+				for (var j = 0; j < 4; j++) {
+					var row = table.insertRow(-1); // 插入新行
+
+					var cell1 = row.insertCell(-1);
+					var cell2 = row.insertCell(-1);
+					if (i < jsonData.length)
+						if (j + 1 == jsonData[i]["group"] % 10) {
+							cell1.innerHTML = jsonData[i]["group"];// 插入键为 "group" 的值
+							cell2.innerHTML = jsonData[i]["title"];// 插入键为 "title" 的值
+							cell2.style.width = "320px";
+							i++;
+						}
+				}
+
+				// 将表格添加到表格容器中
+				container.appendChild(table);
+			}
+
+			// 将表格容器添加到文档中
+			document.body.appendChild(container);
+		});
+
+	</script>
+</body>
+
+</html>
