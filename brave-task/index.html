@@ -69,32 +69,7 @@
 					PackHeadInfo = GetHeadInfo_text(PackHeadInfo.Data_text);
 					//提示
 					alert('收到了包：' + PackHeadInfo.Data_text);
-					//转 ByteArray
-					var param = new ByteArray(PackHeadInfo.Data_De);
-					for (var i = 0; i < 4; i++) {
-						param.readUnsignedInt();
-					}
-					var tasks = new Array();
-					for (var i = 0; i < 4; i++) {
-						tasks.push({
-							group: param.readUnsignedInt(),
-							progress: param.readUnsignedInt(),
-							value: param.readUnsignedInt(),
-							state: param.readUnsignedInt()
-						})
-					}
-					//document.getElementsByClassName("active")
-					document.getElementById("tips").innerText = " " + parseInt(group / 10) % 10;
-					var activeTable = document.getElementById("table-" + parseInt(group / 10) % 10);
-					activeTable.className = "active";
-					document.documentElement.scrollTop = activeTable.offsetTop
-					window.pageYOffset = activeTable.offsetTop
-					document.body.scrollTop = activeTable.offsetTop;
-					var rows = activeTable.getElementsByTagName("tr");
-					for (var i = 0; i < rows.length; i++) {
-						var cells = rows.getElementsByTagName("td");
-						cells[cells.length].innerText = cells[cells.length].innerText + tasks[i].progress + "/" + tasks[i].value;
-					}
+
 				})
 		}
 
