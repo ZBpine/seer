@@ -62,7 +62,7 @@
 // 			这里是监听 id为 postmessage 的组件被点击执行操作
 			document.getElementById('postMessage').addEventListener('click', function() {
 			    //这里是发包，发包完毕后返回 packheadinfo 
-                game_send_recv_text('00000021310000B3DE00000000000001E90000000100000433').then(
+                game_send_recv_text('00000015310000A1D33783B5580000023600000000').then(
                     (PackHeadInfo) => {
                     //返回的packheadinfo 需要重新用 GetHeadInfo_text 打包一下
                     PackHeadInfo= GetHeadInfo_text(PackHeadInfo.Data_text)
