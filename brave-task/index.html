@@ -89,6 +89,11 @@
 					document.documentElement.scrollTop = activeTable.offsetTop
 					window.pageYOffset = activeTable.offsetTop
 					document.body.scrollTop = activeTable.offsetTop;
+					var rows = activeTable.getElementsByTagName("tr");
+					for (var i = 0; i < rows.length; i++) {
+						var cell = row.insertCell(-1);
+						cell.innerHTML = tasks[i].progress + "/" + tasks[i].value;
+					}
 				})
 		}
 
@@ -109,6 +114,7 @@
 				// 构建新表格
 				var table = document.createElement("table");
 				table.id = "table-" + ++count;
+				table.width = "380px";
 				// 循环遍历一个表格内的行（共 4 行）
 				for (var j = 0; j < 4; j++) {
 					var row = table.insertRow(-1); // 插入新行
@@ -119,7 +125,7 @@
 						if (j + 1 == jsonData[i]["group"] % 10) {
 							cell1.innerHTML = jsonData[i]["group"];// 插入键为 "group" 的值
 							cell2.innerHTML = jsonData[i]["title"];// 插入键为 "title" 的值
-							cell2.style.width = "320px";
+							//cell2.style.width = "320px";
 							i++;
 						}
 				}
