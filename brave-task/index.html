@@ -67,7 +67,7 @@
 <body>
 	<p id="tips">获取资源中...</p>
 
-	<button class="btn" type="button" id="postMessage">查看我的进度</button>
+	<button class="btn" type="button" id="postMessage" style="display: none;">查看我的进度</button>
 	<!--这里是js，逻辑部分-->
 	<script type="text/javascript">
 		function loadJSON(url, callback) {
@@ -88,7 +88,7 @@
 					//返回的packheadinfo 需要重新用 GetHeadInfo_text 打包一下
 					PackHeadInfo = GetHeadInfo_text(PackHeadInfo.Data_text)
 					//提示
-					alert('收到了包：' + PackHeadInfo.Data_text)
+					//alert('收到了包：' + PackHeadInfo.Data_text)
 					//转 ByteArray
 					var param = new ByteArray(PackHeadInfo.Data_De);
 					for (var i = 0; i < 4; i++) {
@@ -159,9 +159,8 @@
 					// 将表格添加到表格容器中
 					container.appendChild(table);
 				}
-				//var button = document.createElement("div");
-				//button.innerHTML = '<button class="btn" type="button" id="postMessage">查看我的进度</button>'
-				//document.body.appendChild(button);
+				document.getElementById('postMessage').style.display = 'block';;
+
 				// 将表格容器添加到文档中
 				document.body.appendChild(container);
 				//document.getElementById("tips").innerText = "查询当前任务中..."
