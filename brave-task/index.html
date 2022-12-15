@@ -17,6 +17,10 @@
 			/* 居中对齐 */
 		}
 
+		.active {
+			background-color: rgb(0, 208, 255);
+		}
+
 		/* 设置表格样式 */
 		table {
 			margin: 20px;
@@ -79,9 +83,12 @@
 							state: param.readUnsignedInt()
 						})
 					}
-					document.getElementById("tips").innerText = tasks[1].group + " " + tasks[1].progress + " " + tasks[1].value + " "
-						+ tasks[2].group + " " + tasks[2].progress + " " + tasks[2].value + " "
-						+ tasks[3].group + " " + tasks[3].progress + " " + tasks[3].value;
+					//document.getElementsByClassName("active")
+					var activeTable = document.getElementById("table" + parseInt(group / 10) % 10);
+					activeTable.className = "active";
+					document.documentElement.scrollTop = activeTable.offsetTop
+					window.pageYOffset = activeTable.offsetTop
+					document.body.scrollTop = activeTable.offsetTop;
 				})
 		}
 
