@@ -111,12 +111,13 @@
 					var activeTable = document.getElementById("table-" + parseInt(tasks[0].group / 10) % 10);
 					activeTable.className = "active";
 					document.documentElement.scrollTop = activeTable.offsetTop
-					window.pageYOffset = activeTable.offsetTop
-					document.body.scrollTop = activeTable.offsetTop;
+					//window.pageYOffset = activeTable.offsetTop
+					//document.body.scrollTop = activeTable.offsetTop;
 					var rows = activeTable.getElementsByTagName("tr");
 					for (var i = 0; i < rows.length; i++) {
 						var cells = rows[i].getElementsByTagName("td");
-						cells[cells.length - 1].innerText = cells[cells.length - 1].innerText + tasks[i].progress + "/" + tasks[i].value;
+						cells[cells.length - 1].innerText = cells[cells.length - 1].innerText
+							+ '[' + tasks[i].progress + "/" + tasks[i].value + ']';
 					}
 				})
 		}

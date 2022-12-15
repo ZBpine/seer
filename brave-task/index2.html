@@ -146,7 +146,7 @@
                     //返回的packheadinfo 需要重新用 GetHeadInfo_text 打包一下
                     PackHeadInfo = GetHeadInfo_text(PackHeadInfo.Data_text)
                     //提示
-                    alert('收到了包：' + PackHeadInfo.Data_text)
+                    //alert('收到了包：' + PackHeadInfo.Data_text)
                     //转 ByteArray
                     var param = new ByteArray(PackHeadInfo.Data_De);
                     for (var i = 0; i < 4; i++) {
@@ -169,7 +169,8 @@
                     var rows = activeTable.getElementsByTagName("tr");
                     for (var i = 0; i < rows.length; i++) {
                         var cells = rows[i].getElementsByTagName("td");
-                        cells[cells.length - 1].innerText = cells[cells.length - 1].innerText + tasks[i].progress + "/" + tasks[i].value;
+                        cells[cells.length - 1].innerText = cells[cells.length - 1].innerText
+                            + '[' + tasks[i].progress + "/" + tasks[i].value + ']';
                     }
                 })
 
