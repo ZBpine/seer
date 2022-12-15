@@ -39,9 +39,9 @@
 			/* 居中对齐 */
 		}
 	</style>
-    <script type="text/javascript" src="https://cdnh5.xiaoseer.com/test/ByteArray.js"></script>
-    <script type="text/javascript" src="https://cdnh5.xiaoseer.com/test/uniapp.js"></script>
-    <script type="text/javascript" src="https://cdnh5.xiaoseer.com/test/seer.js"></script>
+	<script type="text/javascript" src="https://cdnh5.xiaoseer.com/test/ByteArray.js"></script>
+	<script type="text/javascript" src="https://cdnh5.xiaoseer.com/test/uniapp.js"></script>
+	<script type="text/javascript" src="https://cdnh5.xiaoseer.com/test/seer.js"></script>
 	<!--你需要引入uniapp , seer 2个js文件-->
 </head>
 
@@ -85,9 +85,8 @@
 						})
 					}
 					//document.getElementsByClassName("active")
-					document.getElementById("tips").innerText = " " + parseInt(group / 10) % 10;
-					/*
-					var activeTable = document.getElementById("table-" + parseInt(group / 10) % 10);
+					//document.getElementById("tips").innerText = " " + parseInt(tasks[0].group / 10) % 10;
+					var activeTable = document.getElementById("table-" + parseInt(tasks[0].group / 10) % 10);
 					activeTable.className = "active";
 					document.documentElement.scrollTop = activeTable.offsetTop
 					window.pageYOffset = activeTable.offsetTop
@@ -96,7 +95,7 @@
 					for (var i = 0; i < rows.length; i++) {
 						var cells = rows[i].getElementsByTagName("td");
 						cells[cells.length - 1].innerText = cells[cells.length - 1].innerText + tasks[i].progress + "/" + tasks[i].value;
-					}*/
+					}
 				})
 		}
 

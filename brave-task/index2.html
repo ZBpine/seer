@@ -132,7 +132,7 @@
                 document.body.appendChild(container);
                 document.getElementById("tips").innerText = "查询当前任务中..."
 
-               // document.getElementById("tips").innerText = "本页面js获取资源部分与css部分全部由chatGPT完成"
+                // document.getElementById("tips").innerText = "本页面js获取资源部分与css部分全部由chatGPT完成"
 
             });
         });
@@ -149,12 +149,20 @@
                     alert('收到了包：' + PackHeadInfo.Data_text)
                     //转 ByteArray
                     var param = new ByteArray(PackHeadInfo.Data_De);
-                    //读取第一个参 无用
-                    param.readUnsignedInt()
-                    //读取第二参数 ，钻石数量
-                    var num = param.readUnsignedInt()
-                    //提示
-                    alert('你兑换过：' + num + ' 钻石')
+                    for (var i = 0; i < 4; i++) {
+                        param.readUnsignedInt();
+                    }
+                    var tasks = new Array();
+                    for (var i = 0; i < 4; i++) {
+                        tasks.push({
+                            group: param.readUnsignedInt(),
+                            progress: param.readUnsignedInt(),
+                            value: param.readUnsignedInt(),
+                            state: param.readUnsignedInt()
+                        })
+                    }
+                    //document.getElementsByClassName("active")
+                    document.getElementById("tips").innerText = " " + parseInt(tasks[0].group / 10) % 10;
                 })
 
         });
