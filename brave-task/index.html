@@ -94,7 +94,7 @@
 					var rows = activeTable.getElementsByTagName("tr");
 					for (var i = 0; i < rows.length; i++) {
 						var cells = rows.getElementsByTagName("td");
-						cells[cells.length].innerText = cells[cells.length].innerText + tasks[i].progress + "/" + tasks[i].value;
+						cells[cells.length - 1].innerText = cells[cells.length - 1].innerText + tasks[i].progress + "/" + tasks[i].value;
 					}
 				})
 		}
