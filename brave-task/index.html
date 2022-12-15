@@ -65,6 +65,7 @@
 		function getMyProgress() {
 			game_send_recv_text('00000015310000A1D33783B5580000023600000000').then(
 				(PackHeadInfo) => {
+					alert('debug')
 					//返回的packheadinfo 需要重新用 GetHeadInfo_text 打包一下
 					PackHeadInfo = GetHeadInfo_text(PackHeadInfo.Data_text)
 					//提示
