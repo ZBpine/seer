@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport"
+			content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>赛尔手册SDK例子2- 钻石使用查看</title>
+		
+		<style type="text/css">
+			.btn {
+				display: block;
+				margin: 20px auto;
+				padding: 5px;
+				background-color: #007aff;
+				border: 0;
+				color: #ffffff;
+				height: 40px;
+				width: 200px;
+			}
+
+			.btn-red {
+				background-color: #dd524d;
+			}
+
+			.btn-yellow {
+				background-color: #f0ad4e;
+			}
+
+			.desc {
+				padding: 10px;
+				color: #999999;
+			}
+
+		</style>
+			    <script type="text/javascript" src="https://cdnh5.xiaoseer.com/test/ByteArray.js"></script>
+				<script type="text/javascript" src="https://cdnh5.xiaoseer.com/test/uniapp.js"></script>
+				<script type="text/javascript" src="https://cdnh5.xiaoseer.com/test/seer.js"></script>
+				<!--你需要引入uniapp , seer 3个js文件-->
+	</head>
+	<body>
+
+<!--这里是界面，你可以使用css 和 html自己绘制-->
+
+		<div>
+			<p class="desc">这里是赛尔手册 SDK例子，点我查看自己2014年起兑换了多少钻石</p>
+			<div class="btn-list">
+				<button class="btn btn-red" type="button" id="postMessage">点我查看</button>
+			</div>
+			<button class="btn" type="button" id="back">点我返回赛尔手册</button>
+		</div>
+
+
+<!--这里是js，逻辑部分-->
+		<script type="text/javascript">
+		  //  这里是监听页面打开，执行操作
+			document.addEventListener('UniAppJSBridgeReady', function() {
+                
+			});
+
+
+// 			这里是监听 id为 postmessage 的组件被点击执行操作
+			document.getElementById('postMessage').addEventListener('click', function() {
+			    //这里是发包，发包完毕后返回 packheadinfo 
+                game_send_recv_text('00000021310000B3DE00000000000001E90000000100000433').then(
+                    (PackHeadInfo) => {
+                    //返回的packheadinfo 需要重新用 GetHeadInfo_text 打包一下
+                    PackHeadInfo= GetHeadInfo_text(PackHeadInfo.Data_text)
+                    //提示
+                    alert('收到了包：'+PackHeadInfo.Data_text)
+                    //转 ByteArray
+		        	var param = new ByteArray(PackHeadInfo.Data_De);
+		        	//读取第一个参 无用
+		        	param.readUnsignedInt()
+		        	//读取第二参数 ，钻石数量
+		        	var num =param.readUnsignedInt()
+		        	//提示
+		        	alert('你兑换过：'+num+' 钻石')
+		})
+
+			});
+// 			这里是监听 id为 back 的组件被点击执行操作		
+			document.getElementById('back').addEventListener('click', function() {
+			    //返回上一页
+				uni.navigateBack({
+					delta: 1
+				});
+			})
+		</script>
+	</body>
+</html>
