@@ -165,6 +165,7 @@
                     document.getElementById("tips").innerText = " " + parseInt(tasks[0].group / 10) % 10;
                     var activeTable = document.getElementById("table-" + parseInt(tasks[0].group / 10) % 10);
 					activeTable.className = "active";
+                    document.documentElement.scrollTop = activeTable.offsetTop
                 })
 
         });
