@@ -93,7 +93,7 @@
 					document.body.scrollTop = activeTable.offsetTop;
 					var rows = activeTable.getElementsByTagName("tr");
 					for (var i = 0; i < rows.length; i++) {
-						var cells = rows.getElementsByTagName("td");
+						var cells = rows[i].getElementsByTagName("td");
 						cells[cells.length - 1].innerText = cells[cells.length - 1].innerText + tasks[i].progress + "/" + tasks[i].value;
 					}
 				})
