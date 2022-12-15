@@ -161,8 +161,11 @@
                             state: param.readUnsignedInt()
                         })
                     }
-                    //document.getElementsByClassName("active")
-                    document.getElementById("tips").innerText = " " + parseInt(tasks[0].group / 10) % 10;
+                    var actives = document.getElementsByClassName("active")
+                    for (var i = 0; i < actives.length; i++) {
+                        actives[i].classList.remove["active"]
+                    }
+                    //document.getElementById("tips").innerText = " " + parseInt(tasks[0].group / 10) % 10;
                     var activeTable = document.getElementById("table-" + parseInt(tasks[0].group / 10) % 10);
                     activeTable.className = "active";
                     document.documentElement.scrollTop = activeTable.offsetTop;
