@@ -130,20 +130,7 @@
                     //提示
                     alert('收到了包：' + PackHeadInfo.Data_text)
                     //转 ByteArray
-                    var param = new ByteArray(PackHeadInfo.Data_De);
-                    for (var i = 0; i < 4; i++) {
-                        param.readUnsignedInt();
-                    }
-                    var tasks = new Array();
-                    for (var i = 0; i < 4; i++) {
-                        tasks.push({
-                            group: param.readUnsignedInt(),
-                            progress: param.readUnsignedInt(),
-                            value: param.readUnsignedInt(),
-                            state: param.readUnsignedInt()
-                        })
-                    }
-                    document.getElementById("tips").innerText = " " + parseInt(group / 10) % 10;
+
                 })
 
         });
