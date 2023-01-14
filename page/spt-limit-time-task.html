@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+        content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="author" content="啦啦啦" />
+    <title>SPT限时任务刷进阶挑战</title>
+
+    <style>
+        .btn {
+            display: block;
+            margin: 10px auto;
+            padding: 5px;
+            background-color: #007aff;
+            border: 0;
+            color: #ffffff;
+            height: 40px;
+            width: 200px;
+        }
+
+        .btn-red {
+            background-color: #dd524d;
+        }
+
+        .btn-yellow {
+            background-color: #f0ad4e;
+        }
+
+        span {
+            font-weight: bold;
+        }
+
+        .ss {
+            color: #dd524d
+        }
+
+        .s {
+            color: #f0ad4e;
+        }
+
+        .a {
+            color: rgb(127, 255, 210);
+        }
+
+        .b {
+            color: rgb(0, 221, 255);
+        }
+    </style>
+    <script type="text/javascript" src="https://cdnh5.xiaoseer.com/test/ByteArray.js"></script>
+    <script type="text/javascript" src="https://cdnh5.xiaoseer.com/test/uniapp.js"></script>
+    <script type="text/javascript" src="https://cdnh5.xiaoseer.com/test/seer.js"></script>
+    <!--你需要引入uniapp , seer 2个js文件-->
+</head>
+
+<body>
+    <form action="">
+        <input type="radio" name="aim" id="S" checked="true" />刷到S以上
+        <input type="radio" name="aim" id="SS" />刷到SS
+    </form>
+    <div>
+        <p id="task1"></p>
+        <button class="btn" type="button" id="change1">换一个</button>
+        <button class="btn" type="button" id="shua1">开刷</button>
+    </div>
+    <div>
+        <p id="task2"></p>
+        <button class="btn" type="button" id="change2">换一个</button>
+        <button class="btn" type="button" id="shua2">开刷</button>
+    </div>
+    <div>
+        <p id="task3"></p>
+        <button class="btn" type="button" id="change3">换一个</button>
+        <button class="btn" type="button" id="shua3">开刷</button>
+    </div>
+    <p id="tips"></p>
+    <!--这里是js，逻辑部分-->
+    <script type="text/javascript">
+        var 星级 = ["至少二星", "三星", "", "", "至少二星", "三星", "三星", "", "", "三星", "至少二星", "", "", "", ""]
+        var 难度 = ["困难", "困难", "困难", "困难", "困难", "困难", "简单", "困难", "简单", "简单", "简单", "困难", "困难", "简单", "困难"]
+        var 星系 = ["", "", "泰坦", "克里奥", "", "", "", "裂空", "泰坦", "", "", "", "罗格", "螺旋", "帕诺"]
+        var 关卡 = [12, 6, 0, 0, 6, 3, 12, 0, 0, 3, 6, 3, 1, 0, 6]
+        var taskIndex = [18, 18, 18]
+        function taskText(i) {
+            var text = "";
+            if (星级[i - 4] != "") {
+                text += 星系[i - 4];
+            }
+            text += "通关"
+            if (星系[i - 4] == "") {
+                text += "任意星系";
+            } else {
+                text += 星系[i - 4];
+            }
+            text += 难度[i - 4] + "模式";
+            if (关卡[i - 4] == 0) {
+                text += "的任意关卡";
+            } else {
+                text = text + "第" + 关卡[i - 4] + "关";
+            }
+            return (text);
+        }
+        function setTaskText(i, num) {
+            if (i < 1) {
+                document.getElementById("task" + num).innerHTML = '<span class="ss">SS</span>';
+            } else if (i == 1) {
+                document.getElementById("task" + num).innerHTML = '<span class="ss">SS</span>' + '通关1次任意星系的隐藏关卡';
+            } else if (i == 2) {
+                document.getElementById("task" + num).innerHTML = '<span class="ss">SS</span>' + '三星通关1次泰坦星系困难模式第7关';
+            } else if (i == 3) {
+                document.getElementById("task" + num).innerHTML = '<span class="ss">SS</span>' + '通关1次魔界简单模式的任意关卡';
+            } else if (i < 8) {
+                document.getElementById("task" + num).innerHTML = '<span class="s">S</span>' + taskText(i);
+            } else if (i <= 12) {
+                document.getElementById("task" + num).innerHTML = '<span class="a">A</span>' + taskText(i);
+            } else if (i <= 18) {
+                document.getElementById("task" + num).innerHTML = '<span class="b">B</span>' + taskText(i);
+            } else {
+                document.getElementById("task" + num).innerHTML = 'unknown:' + i;
+            }
+            taskIndex[num - 1] = i;
+        }
+        function getAdvanceTasks() {
+            game_send_recv_text('00000000310000B3DE000000000000000000000001000312A7').then(
+                (PackHeadInfo) => {
+                    //alert('debug')
+                    //返回的packheadinfo 需要重新用 GetHeadInfo_text 打包一下
+                    PackHeadInfo = GetHeadInfo_text(PackHeadInfo.Data_text)
+                    //提示
+                    //alert('收到了包：' + PackHeadInfo.Data_text)
+                    //转 ByteArray
+                    var param = new ByteArray(PackHeadInfo.Data_De);
+                    param.readUnsignedInt();
+                    var task = param.readUnsignedInt();
+                    setTaskText(task & 255, 1);
+                    setTaskText((task >> 8) & 255, 2);
+                    setTaskText((task >> 16) & 255, 3);
+                })
+        }
+        //  这里是监听页面打开，执行操作
+        document.addEventListener('UniAppJSBridgeReady', function () {
+            getAdvanceTasks();
+        });
+
+        document.getElementById('change1').addEventListener('click', function () {
+            game_send_text('00000019310000A1AC3783B558000002EC000000240000000B');
+            getAdvanceTasks();
+        });
+        document.getElementById('change2').addEventListener('click', function () {
+            game_send_text('00000019310000A1AC3783B558000002EC000000240000000C');
+            getAdvanceTasks();
+        });
+        document.getElementById('change3').addEventListener('click', function () {
+            game_send_text('00000019310000A1AC3783B558000002EC000000240000000D');
+            getAdvanceTasks();
+        });
+
+        function sleep(delay) {
+            var start = (new Date()).getTime();
+            while ((new Date()).getTime() - start < delay) {
+                continue;
+            }
+        }
+        var count = 0;
+        var aim = 7;
+        function resetAdvanceTasks(i, p) {
+            setTimeout(function () {
+                if (taskIndex[i - 1] > aim) {
+                    //document.getElementById('tips').innerText = "aim:" + aim + " i:" + taskIndex[i - 1];
+                    resetAdvanceTasks(i, p)
+                } else {
+                    document.getElementById('shua' + i).disabled = false;
+                    document.getElementById('shua' + i).classList.remove('btn-red');
+                    return;
+                }
+                game_send_text('00000019310000A1AC3783B558000002EC000000240000000' + p);
+                getAdvanceTasks();
+                count++;
+                document.getElementById('tips').innerText = "已刷" + count + "次";
+                //sleep(50);
+            }, 100);
+        }
+        document.getElementById('shua1').addEventListener('click', function () {
+            aim = 7;
+            if (document.getElementById('SS').checked)
+                aim = 3;
+            count = 0;
+            document.getElementById('shua1').disabled = true;
+            document.getElementById('shua1').classList.add('btn-red');
+            resetAdvanceTasks(1, 'B');
+        });
+        document.getElementById('shua2').addEventListener('click', function () {
+            aim = 7;
+            if (document.getElementById('SS').checked)
+                aim = 3;
+            count = 0;
+            document.getElementById('shua2').disabled = true;
+            document.getElementById('shua2').classList.add('btn-red');
+            resetAdvanceTasks(2, 'C');
+        });
+        document.getElementById('shua3').addEventListener('click', function () {
+            aim = 7;
+            if (document.getElementById('SS').checked)
+                aim = 3;
+            count = 0;
+            document.getElementById('shua3').disabled = true;
+            document.getElementById('shua3').classList.add('btn-red');
+            resetAdvanceTasks(3, 'D');
+        });
+    </script>
+</body>
+
+</html>
