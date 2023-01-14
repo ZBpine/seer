@@ -175,11 +175,11 @@
                     return;
                 }
                 game_send_text('00000019310000A1AC3783B558000002EC000000240000000' + p);
-                getAdvanceTasks();
                 count++;
                 document.getElementById('tips').innerText = "已刷" + count + "次";
-                //sleep(50);
-            }, 100);
+                sleep(50);
+                getAdvanceTasks();
+            }, 200);
         }
         document.getElementById('shua1').addEventListener('click', function () {
             aim = 7;
