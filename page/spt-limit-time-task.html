@@ -75,6 +75,8 @@
         <button class="btn" type="button" id="shua3">开刷</button>
     </div>
     <p id="tips"></p>
+    <button class="btn btn-yellow" type="button" id="shua3">查看所有任务</button>
+    <div id="task-list" style="display: none;" onclick="taskListDisp()"></div>
     <!--这里是js，逻辑部分-->
     <script type="text/javascript">
         var 星级 = ["至少二星", "三星", "", "", "至少二星", "三星", "三星", "", "", "三星", "至少二星", "", "", "", ""]
@@ -84,40 +86,46 @@
         var taskIndex = [18, 18, 18]
         function taskText(i) {
             var text = "";
-            if (星级[i - 4] != "") {
-                text += 星系[i - 4];
+            if (i == 1) {
+                text = '通关1次任意星系的隐藏关卡'
             }
-            text += "通关"
-            if (星系[i - 4] == "") {
-                text += "任意星系";
-            } else {
-                text += 星系[i - 4] + "星系";
+            else if (i == 2) {
+                text = '三星通关1次泰坦星系困难模式第7关'
             }
-            text += 难度[i - 4] + "模式";
-            if (关卡[i - 4] == 0) {
-                text += "的任意关卡";
+            else if (i == 2) {
+                text = '通关1次魔界简单模式的任意关卡'
             } else {
-                text = text + "第" + 关卡[i - 4] + "关";
+                if (星级[i - 4] != "") {
+                    text += 星系[i - 4];
+                }
+                text += "通关"
+                if (星系[i - 4] == "") {
+                    text += "任意星系";
+                } else {
+                    text += 星系[i - 4] + "星系";
+                }
+                text += 难度[i - 4] + "模式";
+                if (关卡[i - 4] == 0) {
+                    text += "的任意关卡";
+                } else {
+                    text = text + "第" + 关卡[i - 4] + "关";
+                }
             }
             return (text);
         }
-        function setTaskText(i, num) {
+        function setTaskText(i, id) {
             if (i < 1) {
-                document.getElementById("task" + num).innerHTML = '<span class="ss">SS</span>';
-            } else if (i == 1) {
-                document.getElementById("task" + num).innerHTML = '<span class="ss">SS</span>' + '通关1次任意星系的隐藏关卡';
-            } else if (i == 2) {
-                document.getElementById("task" + num).innerHTML = '<span class="ss">SS</span>' + '三星通关1次泰坦星系困难模式第7关';
-            } else if (i == 3) {
-                document.getElementById("task" + num).innerHTML = '<span class="ss">SS</span>' + '通关1次魔界简单模式的任意关卡';
+                document.getElementById(id).innerHTML = '<span class="ss">SS</span>';
+            } else if (i < 4) {
+                document.getElementById(id).innerHTML = '<span class="ss">SS</span>' + taskText(i);
             } else if (i < 8) {
-                document.getElementById("task" + num).innerHTML = '<span class="s">S</span>' + taskText(i);
+                document.getElementById(id).innerHTML = '<span class="s">S</span>' + taskText(i);
             } else if (i <= 12) {
-                document.getElementById("task" + num).innerHTML = '<span class="a">A</span>' + taskText(i);
+                document.getElementById(id).innerHTML = '<span class="a">A</span>' + taskText(i);
             } else if (i <= 18) {
-                document.getElementById("task" + num).innerHTML = '<span class="b">B</span>' + taskText(i);
+                document.getElementById(id).innerHTML = '<span class="b">B</span>' + taskText(i);
             } else {
-                document.getElementById("task" + num).innerHTML = 'unknown:' + i;
+                document.getElementById(id).innerHTML = 'unknown:' + i;
             }
             taskIndex[num - 1] = i;
         }
@@ -133,15 +141,28 @@
                     var param = new ByteArray(PackHeadInfo.Data_De);
                     param.readUnsignedInt();
                     var task = param.readUnsignedInt();
-                    setTaskText(task & 255, 1);
-                    setTaskText((task >> 8) & 255, 2);
-                    setTaskText((task >> 16) & 255, 3);
+                    setTaskText(task & 255, 'task1');
+                    setTaskText((task >> 8) & 255, 'task2');
+                    setTaskText((task >> 16) & 255, 'task3');
                 })
         }
         //  这里是监听页面打开，执行操作
         document.addEventListener('UniAppJSBridgeReady', function () {
             getAdvanceTasks();
+            for (var i = 1; i <= 18; i++) {
+                var para = document.createElement("p");
+                para.id = 'list' + i;
+                setTaskText(i, 'list' + i);
+                document.getElementById('task-list').appendChild(para);
+            }
         });
+        function taskListDisp() {
+            if (document.getElementById('task-list').style.display == 'block') {
+                document.getElementById('task-list').style.display = 'none';
+            } else {
+                document.getElementById('task-list').style.display = 'block';
+            }
+        }
 
         document.getElementById('change1').addEventListener('click', function () {
             game_send_text('00000019310000A1AC3783B558000002EC000000240000000B');
