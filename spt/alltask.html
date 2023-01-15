@@ -134,8 +134,9 @@
 					span.classList.remove("nav-close");
 					span.classList.add("nav-open");
 				}
-				document.documentElement.scrollTop = self.offsetTop;
-				document.body.scrollTop = self.offsetTop;
+				var scroll = parseInt(self.id.substring(self.id.indexOf("-") + 1, self.id.indexOf("-", 7))) - 1;
+				document.documentElement.scrollTop = scroll * 73.6;
+				document.body.scrollTop = self.offsetTop * 73.6;
 			}, 300);
 			if (self.checked) {
 				var openSubContent = self.parentNode.querySelector(".sub-content")
