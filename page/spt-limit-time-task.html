@@ -61,15 +61,15 @@
 </head>
 
 <body>
+    <div>
+        <button class="btn" type="button" id="quanshua1">刷无星系要求的两个S一个A</button>
+        <button class="btn" type="button" id="quanshua2">刷非隐藏关的两个SS一个S</button>
+    </div>
     <form action="">
         <input type="radio" name="aim" id="AS" checked="true" />刷到要求最低的A与S
         <input type="radio" name="aim" id="S" />刷到S以上
         <input type="radio" name="aim" id="SS" />刷到SS
     </form>
-    <div>
-        <button class="btn" type="button" id="quanshua1">刷无星系要求的两个S一个A</button>
-        <button class="btn" type="button" id="quanshua2">刷两个SS一个S</button>
-    </div>
     <div class="line"></div>
     <div>
         <p id="task1"></p>
@@ -204,10 +204,10 @@
         }
         var count = 0;
         var aim = [4, 5, 8, 9, 10];
-        function resetAdvanceTasks(i, p) {
+        function resetAdvanceTask(i, p) {
             setTimeout(function () {
                 if (!aim.includes(taskIndex[i - 1])) {
-                    resetAdvanceTasks(i, p)
+                    resetAdvanceTask(i, p)
                 } else {
                     document.getElementById('shua' + i).disabled = false;
                     document.getElementById('shua' + i).classList.remove('btn-red');
@@ -215,6 +215,43 @@
                 }
                 game_send_text('00000019310000A1AC3783B558000002EC000000240000000' + p);
                 count++;
+                document.getElementById('tips').innerText = "已刷" + count + "次";
+                sleep(50);
+                getAdvanceTasks();
+            }, 200);
+        }
+        function resetAllAdvanceTasks() {
+            setTimeout(function () {
+                var over = true;
+                if (aim.includes(taskIndex[0])) {
+                    document.getElementById('shua1').disabled = false;
+                    document.getElementById('shua1').classList.remove('btn-red');
+                } else {
+                    game_send_text('00000019310000A1AC3783B558000002EC000000240000000B');
+                    count++;
+                    over = false;
+                }
+                if (aim.includes(taskIndex[1])) {
+                    document.getElementById('shua2').disabled = false;
+                    document.getElementById('shua2').classList.remove('btn-red');
+                } else {
+                    game_send_text('00000019310000A1AC3783B558000002EC000000240000000C');
+                    count++;
+                    over = false;
+                }
+                if (aim.includes(taskIndex[2])) {
+                    document.getElementById('shua3').disabled = false;
+                    document.getElementById('shua3').classList.remove('btn-red');
+                } else {
+                    game_send_text('00000019310000A1AC3783B558000002EC000000240000000D');
+                    count++;
+                    over = false;
+                }
+                if (over) {
+                    return
+                } else {
+                    resetAllAdvanceTasks();
+                }
                 document.getElementById('tips').innerText = "已刷" + count + "次";
                 sleep(50);
                 getAdvanceTasks();
@@ -230,7 +267,7 @@
             count = 0;
             document.getElementById('shua1').disabled = true;
             document.getElementById('shua1').classList.add('btn-red');
-            resetAdvanceTasks(1, 'B');
+            resetAdvanceTask(1, 'B');
         });
         document.getElementById('shua2').addEventListener('click', function () {
             if (document.getElementById('AS').checked)
@@ -242,7 +279,7 @@
             count = 0;
             document.getElementById('shua2').disabled = true;
             document.getElementById('shua2').classList.add('btn-red');
-            resetAdvanceTasks(2, 'C');
+            resetAdvanceTask(2, 'C');
         });
         document.getElementById('shua3').addEventListener('click', function () {
             if (document.getElementById('AS').checked)
@@ -254,35 +291,29 @@
             count = 0;
             document.getElementById('shua3').disabled = true;
             document.getElementById('shua3').classList.add('btn-red');
-            resetAdvanceTasks(3, 'D');
+            resetAdvanceTask(3, 'D');
         });
         document.getElementById('quanshua1').addEventListener('click', function () {
             aim = [4, 5, 8];
             count = 0;
             document.getElementById('shua1').disabled = true;
             document.getElementById('shua1').classList.add('btn-red');
-            resetAdvanceTasks(1, 'B');
             document.getElementById('shua2').disabled = true;
             document.getElementById('shua2').classList.add('btn-red');
-            resetAdvanceTasks(2, 'C');
             document.getElementById('shua3').disabled = true;
             document.getElementById('shua3').classList.add('btn-red');
-            resetAdvanceTasks(3, 'D');
+            resetAllAdvanceTasks();
         });
         document.getElementById('quanshua2').addEventListener('click', function () {
             aim = [2, 3, 6];
             count = 0;
             document.getElementById('shua1').disabled = true;
             document.getElementById('shua1').classList.add('btn-red');
-            resetAdvanceTasks(1, 'B');
-            sleep(13);
             document.getElementById('shua2').disabled = true;
             document.getElementById('shua2').classList.add('btn-red');
-            resetAdvanceTasks(2, 'C');
-            sleep(13);
             document.getElementById('shua3').disabled = true;
             document.getElementById('shua3').classList.add('btn-red');
-            resetAdvanceTasks(3, 'D');
+            resetAllAdvanceTasks();
         });
     </script>
 </body>
