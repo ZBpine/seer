@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport"
+		content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title>勇者征程所有任务</title>
+	<style>
+		.accordion {
+			position: relative;
+		}
+
+		.accordion input {
+			display: none;
+		}
+
+		.accordion .sub-content {
+			overflow: hidden;
+			height: 0px;
+			transition: height 0.3s ease-in-out;
+		}
+
+		.accordion input:checked~.sub-content {
+			height: 2000px;
+		}
+
+		.check {
+			display: inline-block;
+			margin: 3px;
+			padding: 5px;
+			padding-left: 15px;
+			width: 222px;
+			border-radius: 2px;
+			background-color: #eee;
+			cursor: pointer;
+		}
+
+		/* 菜单展开向下的箭头 */
+		.nav-open {
+			display: inline-block;
+			width: 0px;
+			height: 0px;
+			border-width: 6px;
+			border-style: solid;
+			border-color: #aaa transparent transparent transparent;
+			position: relative;
+			top: 4px;
+			right: 3px;
+		}
+
+		/* 菜单折叠向上的箭头 */
+		.nav-close {
+			display: inline-block;
+			width: 0px;
+			height: 0px;
+			border-width: 6px;
+			border-style: solid;
+			border-color: transparent transparent transparent #666;
+			position: relative;
+		}
+
+		div.planet {
+			margin: 2px;
+			border: 1px solid #ccc;
+			border-radius: 2px;
+			padding-left: 5px;
+			width: auto;
+		}
+
+		div.profile {
+			/* float: left; */
+			display: inline-block;
+			margin: 5px;
+			border: 1px solid #ccc;
+		}
+
+		div.desc {
+			padding: 5px;
+			text-align: center;
+		}
+	</style>
+	<script type="text/javascript" src="https://cdnh5.xiaoseer.com/test/ByteArray.js"></script>
+	<script type="text/javascript" src="https://cdnh5.xiaoseer.com/test/uniapp.js"></script>
+	<script type="text/javascript" src="https://cdnh5.xiaoseer.com/test/seer.js"></script>
+	<!--你需要引入uniapp , seer 2个js文件-->
+</head>
+
+<body>
+	<p id="tips">获取资源中...</p>
+	<section class="accordion" id="accordion">
+		<div id="i1-1"></div>
+		<div id="i2-1"></div>
+		<div id="i1-2"></div>
+		<div id="i2-2"></div>
+		<div id="i1-3"></div>
+		<div id="i2-3"></div>
+		<div id="i1-4"></div>
+		<div id="i2-4"></div>
+		<div id="i1-5"></div>
+		<div id="i2-5"></div>
+		<div id="i1-6"></div>
+		<div id="i2-6"></div>
+		<div id="i1-7"></div>
+		<div id="i2-7"></div>
+		<div id="i1-8"></div>
+		<div id="i2-8"></div>
+		<div id="i1-9"></div>
+		<div id="i2-9"></div>
+
+	</section>
+	<!--这里是js，逻辑部分-->
+	<script type="text/javascript">
+		function doAccordion(self) {
+			//https://www.jianshu.com/p/ea722689b2b7
+			var allSubContent = document.querySelector(".accordion").querySelectorAll(".sub-content");
+			for (var i = 0; i < allSubContent.length; i++) {
+				allSubContent[i].style.height = 0;
+			}
+			var checked = self.checked;
+			var allCheckBox = document.querySelector(".accordion").querySelectorAll("input");
+			for (var i = 0; i < allCheckBox.length; i++) {
+				allCheckBox[i].checked = false;
+			}
+			self.checked = checked;
+			setTimeout(function () {
+				var allnavOpen = document.querySelector(".accordion").querySelectorAll(".nav-open");
+				for (var i = 0; i < allnavOpen.length; i++) {
+					allnavOpen[i].classList.remove("nav-open");
+					allnavOpen[i].classList.add("nav-close");
+				}
+				if (self.checked) {
+					var span = self.nextElementSibling.getElementsByTagName("span")[0];
+					span.classList.remove("nav-close");
+					span.classList.add("nav-open");
+				}
+				document.documentElement.scrollTop = self.offsetTop;
+				document.body.scrollTop = self.offsetTop;
+			}, 300);
+			if (self.checked) {
+				var openSubContent = self.parentNode.querySelector(".sub-content")
+				openSubContent.style.height = openSubContent.scrollHeight + "px";
+			}
+		}
+		function loadJSON(url, callback) {
+			var xobj = new XMLHttpRequest();
+			xobj.overrideMimeType("application/json");
+			xobj.open('GET', url, true);
+			xobj.onreadystatechange = function () {
+				if (xobj.readyState == 4 && xobj.status == "200") {
+					callback(xobj.responseText);
+				}
+			};
+			xobj.send(null);
+		}
+
+		var SPTtask, btlCondit;
+		//  这里是监听页面打开，执行操作
+		document.addEventListener('UniAppJSBridgeReady', function () {
+			var galaxy = ["帕诺星系", "卡兰星系", "罗格星系", "裂空星系", "螺旋星系", "泰坦星系", "克里奥星域", "冥域", "魔界"];
+			for (var i = 1; i <= 9; i++) {
+				var d = document.getElementById('i1-' + i);
+				d.innerHTML = `
+		<div>
+			<input id="check-${i}-1" name="galaxy-check" type="checkbox" onclick="doAccordion(this)">
+			<label for="check-${i}-1" class="check"><span class="aside nav-close"></span>${galaxy[i - 1]}简单模式</label>
+			<div class="sub-content" id="galaxy-${i}-1">
+			</div>
+		</div>
+				`;
+				d = document.getElementById('i2-' + i);
+				d.innerHTML = `
+		<div>
+			<input id="check-${i}-2" name="galaxy-check" type="checkbox" onclick="doAccordion(this)">
+			<label for="check-${i}-2" class="check"><span class="aside nav-close"></span>${galaxy[i - 1]}困难模式</label>
+			<div class="sub-content" id="galaxy-${i}-2">
+			</div>
+		</div>
+				`;
+			}
+			// 示例调用，跨域加载 JSON 文件
+			var url = "http://seerh5.61.com/resource/config/json/btl_condition_20fa229b.json";
+			loadJSON(url, function (response) {
+				// 在此处处理 JSON 数据
+				btlCondit = JSON.parse(response);
+				btlCondit = btlCondit["data"];
+				var url = "http://seerh5.61.com/resource/config/json/SPTtask_f3db152e.json";
+				loadJSON(url, function (response) {
+					// 在此处处理 JSON 数据
+					SPTtask = JSON.parse(response);
+					SPTtask = SPTtask["data"];
+					for (var i = 0; i < SPTtask.length; i++) {
+						if (SPTtask[i]["tasktype"] == 1) {
+							var g = document.getElementById('galaxy-' + SPTtask[i]["galaxyid"] + '-' + SPTtask[i]["taskmode"]);
+							var d = makeStepDiv(SPTtask[i]["monsterid"], SPTtask[i]["btlconid"]);
+							var p = document.createElement("p");
+							p.innerText = "星球" + SPTtask[i]["taskstep"] + "：";
+							d.insertBefore(p, d.getElementsByTagName("div")[0]);
+							g.appendChild(d);
+						}
+					}
+					document.getElementById('tips').style.display = 'none';
+				});
+			});
+		});
+		function makeStepDiv(petid, conid,) {
+			var div = document.createElement("div");
+			div.classList.add('planet');
+			var petsid = petid.split('_');
+			for (var i = 0; i < petsid.length; i++) {
+				var imgDiv = document.createElement("div");
+				imgDiv.classList.add('profile');
+				var img = document.createElement("img");
+				img.src = "http://seerh5.61.com/resource/assets/pet/head/" + parseInt(petsid[i]) + ".png";
+				img.alt = petsid[i];
+				imgDiv.appendChild(img);
+				var descDiv = document.createElement("div");
+				descDiv.classList.add('desc');
+				descDiv.innerText = petsid[i];
+				imgDiv.appendChild(descDiv);
+				div.appendChild(imgDiv);
+			}
+			var ul = document.createElement("ul");
+			var li = document.createElement("li");
+			li.innerText = "战胜精灵";
+			ul.appendChild(li);
+			var consid = conid.split('_');
+			for (var i = 0; i < consid.length; i++) {
+				var li = document.createElement("li");
+				li.innerText = btlCondit[parseInt(consid[i]) - 1]["btldesc"];
+				ul.appendChild(li);
+			}
+			div.appendChild(ul);
+			return div;
+		}
+	</script>
+</body>
+
+</html>
