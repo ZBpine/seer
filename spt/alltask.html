@@ -32,7 +32,7 @@
 			padding-left: 15px;
 			width: 222px;
 			border-radius: 2px;
-			background-color: #eee;
+			background-color: rgb(170, 243, 245);
 			cursor: pointer;
 		}
 
@@ -43,10 +43,10 @@
 			height: 0px;
 			border-width: 6px;
 			border-style: solid;
-			border-color: #aaa transparent transparent transparent;
+			border-color: rgb(148, 192, 196) transparent transparent transparent;
 			position: relative;
 			top: 4px;
-			right: 3px;
+			right: 4px;
 		}
 
 		/* 菜单折叠向上的箭头 */
@@ -56,7 +56,7 @@
 			height: 0px;
 			border-width: 6px;
 			border-style: solid;
-			border-color: transparent transparent transparent #666;
+			border-color: transparent transparent transparent rgb(67, 94, 117);
 			position: relative;
 		}
 
@@ -180,12 +180,12 @@
 				`;
 			}
 			// 示例调用，跨域加载 JSON 文件
-			var url = "http://seerh5.61.com/resource/config/json/btl_condition_20fa229b.json";
+			var url = "https://seerh5.61.com/resource/config/json/btl_condition_20fa229b.json";
 			loadJSON(url, function (response) {
 				// 在此处处理 JSON 数据
 				btlCondit = JSON.parse(response);
 				btlCondit = btlCondit["data"];
-				var url = "http://seerh5.61.com/resource/config/json/SPTtask_f3db152e.json";
+				var url = "https://seerh5.61.com/resource/config/json/SPTtask_f3db152e.json";
 				loadJSON(url, function (response) {
 					// 在此处处理 JSON 数据
 					SPTtask = JSON.parse(response);
